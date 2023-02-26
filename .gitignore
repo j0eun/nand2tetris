@@ -1,5 +1,11 @@
+# Nand2Tetris 실습도구 폴더
 tools
+
+# 과제가 주어지지 않는 챕터들
 projects/00
-projects/01/*.out
 projects/13
 projects/demo
+
+# 생성한 출력 결과 제외
+projects/01/*.out
+projects/02/*.out
