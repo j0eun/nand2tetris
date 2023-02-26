@@ -27,6 +27,7 @@ NAND 게이트로 아래의 게이트들을 구현해봅니다.
 
 ## Project 2: Boolean Arithmetic
 1장에서 구현했던 논리 게이트들을 사용해 논리 연산 기능을 구현합니다.
+
 반가산기, 전가산기, 증분기, 가산기를 작성합니다.
 
 ## Project 3: Sequential Logic
