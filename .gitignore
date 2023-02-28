@@ -9,3 +9,5 @@ projects/demo
 # 생성한 출력 결과 제외
 projects/01/*.out
 projects/02/*.out
+projects/03/a/*.out
+projects/03/b/*.out
