@@ -11,3 +11,7 @@ projects/01/*.out
 projects/02/*.out
 projects/03/a/*.out
 projects/03/b/*.out
+projects/04/mult/*.out
+projects/04/mult/*.hack
+projects/04/fill/*.out
+projects/04/fill/*.hack

@@ -36,7 +36,7 @@ NAND 게이트로 아래의 게이트들을 구현해봅니다.
 프로그램 카운터와 다양한 크기의 램 메모리를 작성합니다.
 
 ## Project 4: Machine Language
-
+어셈블리 명령어를 활용해 간단한 곱셈 연산, 그리고 I/O 조작 프로그램을 구현합니다.
 
 ## Project 5: Computer Architecture
 
