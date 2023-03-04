@@ -15,3 +15,5 @@ projects/04/mult/*.out
 projects/04/mult/*.hack
 projects/04/fill/*.out
 projects/04/fill/*.hack
+projects/05/*.out
+projects/05/*.hack
