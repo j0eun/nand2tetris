@@ -17,3 +17,8 @@ projects/04/fill/*.out
 projects/04/fill/*.hack
 projects/05/*.out
 projects/05/*.hack
+projects/06/add/*.hack
+projects/06/max/*.hack
+projects/06/pong/*.hack
+projects/06/rect/*.hack
+projects/06/assembler/__pycache__

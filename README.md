@@ -46,7 +46,9 @@ NAND 게이트로 아래의 게이트들을 구현해봅니다.
 앞서 만든 메모리와 프로그램 카운터를 활용해 CPU를 작성합니다.
 
 ## Project 6: Assembler
+어셈블러를 구현합니다.
 
+Parser, Code, SymbolTable 세 가지 모듈을 원하는 언어로 작성합니다.
 
 ## Project 7: VM I: Stack Arithmetic
 
