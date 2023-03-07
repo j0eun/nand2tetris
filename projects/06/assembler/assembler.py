@@ -2,11 +2,54 @@
 import sys
 import code
 import parser
+import symtab
+
+syms = symtab.SymbolTable()
+
+def sympass_record_labels(p:parser.Parser)->parser.Parser:
+    global syms
+    rom_ptr = 0
+    while p.has_more_commands() == True:
+        p.advance()
+        match p.command_type():
+            case parser.CommandType.A_COMMAND:
+                rom_ptr += 1
+            case parser.CommandType.C_COMMAND:
+                rom_ptr += 1
+            case parser.CommandType.L_COMMAND:
+                symbol = p.symbol()
+                if syms.contains(symbol) == False:
+                    syms.add_entry(symbol, rom_ptr)
+    p.cur_line = 0
+    p.cur_code = ""
+    return p
+
+def sympass_translate_symbol(p:parser.Parser)->parser.Parser:
+    global syms
+    ram_ptr = 16
+    while p.has_more_commands() == True:
+        p.advance()
+        match p.command_type():
+            case parser.CommandType.A_COMMAND:
+                symbol = p.symbol()
+                try:
+                    int(symbol, 10)
+                except ValueError:
+                    if syms.contains(symbol) == False:
+                        syms.add_entry(symbol, ram_ptr)
+                        ram_ptr += 1
+                    p.cur_code = "@"+str(syms.get_address(symbol))
+        p.code[p.cur_line-1] = p.cur_code
+    p.cur_line = 0
+    p.cur_code = ""
+    return p
 
 def assemble(path)->str:
     machine_code = ""
-    p = parser.Parser(path)
     c = code.Code()
+    p = parser.Parser(path)
+    p = sympass_record_labels(p)
+    p = sympass_translate_symbol(p)
     while p.has_more_commands() == True:
         line = ""
         p.advance()
@@ -29,12 +72,10 @@ def assemble(path)->str:
                 else:
                     line += ""
             case parser.CommandType.L_COMMAND:
-                pass
+                continue
         assert len(line) == 16
         machine_code += f"{line}\n"
     return machine_code
-
-    
 
 def save_as_hack(original_path:str, machine_code:str)->None:
     assert len(machine_code) > 0
@@ -47,7 +88,7 @@ if __name__ == "__main__":
         print("[-] Usage: ./assembler.py <asm_filepath>")
         sys.exit(1)
     if sys.argv[1][-4:] != ".asm":
-        print("[-] This is not an Nand2Tetris assembly source file")
+        print("[-] This is not a Nand2Tetris assembly source file")
         sys.exit(1)
     asm_filepath = sys.argv[1]
     machine_code = assemble(asm_filepath)
