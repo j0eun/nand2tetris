@@ -22,3 +22,17 @@ projects/06/max/*.hack
 projects/06/pong/*.hack
 projects/06/rect/*.hack
 projects/06/assembler/__pycache__
+projects/07/BasicTest/*.asm
+projects/07/BasicTest/*.out
+projects/07/PointerTest/*.asm
+projects/07/PointerTest/*.out
+projects/07/StaticTest/*.asm
+projects/07/StaticTest/*.out
+projects/07/StackArithmetic/SimpleAdd/*.asm
+projects/07/StackArithmetic/SimpleAdd/*.out
+projects/07/StackArithmetic/StackTest/*.asm
+projects/07/StackArithmetic/StackTest/*.out
+projects/07/VMTranslator/__pycache__
+
+# 디버깅 설정 폴더
+.vscode
