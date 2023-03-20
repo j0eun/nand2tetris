@@ -28,6 +28,12 @@ projects/07/PointerTest/*.asm
 projects/07/PointerTest/*.out
 projects/07/StaticTest/*.asm
 projects/07/StaticTest/*.out
+projects/07/MemoryAccess/BasicTest/*.asm
+projects/07/MemoryAccess/BasicTest/*.out
+projects/07/MemoryAccess/PointerTest/*.asm
+projects/07/MemoryAccess/PointerTest/*.out
+projects/07/MemoryAccess/StaticTest/*.asm
+projects/07/MemoryAccess/StaticTest/*.out
 projects/07/StackArithmetic/SimpleAdd/*.asm
 projects/07/StackArithmetic/SimpleAdd/*.out
 projects/07/StackArithmetic/StackTest/*.asm

@@ -22,6 +22,8 @@ if __name__ == "__main__":
                     w.write_arithmetic(p.arg1())
                 case parser.CommandType.C_PUSH:
                     w.write_push_pop("push", p.arg1(), p.arg2())
+                case parser.CommandType.C_POP:
+                    w.write_push_pop("pop", p.arg1(), p.arg2())
         del w
         del p
     print("[*] done!")

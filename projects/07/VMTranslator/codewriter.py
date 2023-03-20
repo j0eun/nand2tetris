@@ -27,6 +27,8 @@ class CodeWriter():
 
             "FALSE": 0,
             "TRUE": -1,
+            "TEMP": 5,      # TEMP = RAM[5]~RAM[12]
+            "STATIC": 16    # STATIC = RAM[16]~RAM[255]
         }
     
     # 출력 파일/스트림을 닫는다.
@@ -41,8 +43,7 @@ class CodeWriter():
     # C_ARITHMETIC 타입의 명령을 작성한다.
     def write_arithmetic(self, command:str) -> None:
         code = ""
-        command = command.lower()
-        match command:
+        match command.lower():
             case "add":
                 code = self.__binary_add()
             case "sub":
@@ -70,15 +71,127 @@ class CodeWriter():
     # index : 두 번째 오퍼랜드
     def write_push_pop(self, command:str, segment:str, index:int) -> None:
         code = ""
-        command = command.lower()
         segment = segment.lower()
-        match command:
+        match command.lower():
             case "push":
                 if segment == "constant":
                     code += f"@{index}\n"
                     code += self.__push_reg("A")
+                elif segment == "this":
+                    code += f"@{self.predefined['THIS']}\n"
+                    code += f"D=M\n"
+                    code += f"@{index}\n"
+                    code += f"A=D+A\n"
+                    code += self.__push_reg("M")
+                elif segment == "that":
+                    code += f"@{self.predefined['THAT']}\n"
+                    code += f"D=M\n"
+                    code += f"@{index}\n"
+                    code += f"A=D+A\n"
+                    code += self.__push_reg("M")
+                elif segment == "pointer":
+                    if index == 0:      # point to THIS pointer
+                        code += f"@{self.predefined['THIS']}\n"
+                        code += self.__push_reg("M")
+                    elif index == 1:    # point to THAT pointer
+                        code += f"@{self.predefined['THAT']}\n"
+                        code += self.__push_reg("M")
+                    else:
+                        raise AssertionError("invalid index value")
+                elif segment == "local":
+                    code += f"@{self.predefined['LCL']}\n"
+                    code += f"D=M\n"
+                    code += f"@{index}\n"
+                    code += f"A=D+A\n"
+                    code += self.__push_reg("M")
+                elif segment == "argument":
+                    code += f"@{self.predefined['ARG']}\n"
+                    code += f"D=M\n"
+                    code += f"@{index}\n"
+                    code += f"A=D+A\n"
+                    code += self.__push_reg("M")
+                elif segment == "temp":
+                    code += f"@{self.predefined['TEMP']+index}\n"
+                    code += self.__push_reg("M")
+                elif segment == "static":
+                    code += f"@{self.predefined['STATIC']+index}\n"
+                    code += self.__push_reg("M")
+                else:
+                    code += f"@{self.predefined[segment]}\n"
+                    code += f"D=M\n"                # D=&segment[0]
+                    code += f"@{index}\n"
+                    code += f"A=D+A\n"              # A=&segment[index]
+                    code += self.__push_reg("M")    # push semgent[index]
             case "pop":
-                pass
+                if segment == "pointer":
+                    if index == 0:      # point to THIS pointer
+                        code += self.__pop_reg("D")
+                        code += f"@{self.predefined['THIS']}\n"
+                        code += f"M=D\n"
+                    elif index == 1:    # point to THAT pointer
+                        code += self.__pop_reg("D")
+                        code += f"@{self.predefined['THAT']}\n"
+                        code += f"M=D\n"
+                    else:
+                        raise AssertionError("invalid index value")
+                elif segment == "this":
+                    code += f"@{self.predefined['THIS']}\n"
+                    code += f"D=M\n"
+                    code += f"@{index}\n"
+                    code += f"D=D+A\n"
+                    code += f"@{self.predefined['R13']}\n"
+                    code += f"M=D\n"
+                    code += self.__pop_reg("D")
+                    code += f"@{self.predefined['R13']}\n"
+                    code += f"A=M\n"
+                    code += f"M=D\n"
+                elif segment == "that":
+                    code += f"@{self.predefined['THAT']}\n"
+                    code += f"D=M\n"
+                    code += f"@{index}\n"
+                    code += f"D=D+A\n"
+                    code += f"@{self.predefined['R13']}\n"
+                    code += f"M=D\n"
+                    code += self.__pop_reg("D")
+                    code += f"@{self.predefined['R13']}\n"
+                    code += f"A=M\n"
+                    code += f"M=D\n"
+                elif segment == "local":
+                    code += f"@{self.predefined['LCL']}\n"
+                    code += f"D=M\n"
+                    code += f"@{index}\n"
+                    code += f"D=D+A\n"
+                    code += f"@{self.predefined['R13']}\n"
+                    code += f"M=D\n"
+                    code += self.__pop_reg("D")
+                    code += f"@{self.predefined['R13']}\n"
+                    code += f"A=M\n"
+                    code += f"M=D\n"
+                elif segment == "argument":
+                    code += f"@{self.predefined['ARG']}\n"
+                    code += f"D=M\n"
+                    code += f"@{index}\n"
+                    code += f"D=D+A\n"
+                    code += f"@{self.predefined['R13']}\n"
+                    code += f"M=D\n"
+                    code += self.__pop_reg("D")
+                    code += f"@{self.predefined['R13']}\n"
+                    code += f"A=M\n"
+                    code += f"M=D\n"
+                elif segment == "temp":
+                    code += self.__pop_reg("D")
+                    code += f"@{self.predefined['TEMP']+index}\n"
+                    code += f"M=D\n"
+                elif segment == "static":
+                    code += self.__pop_reg("D")
+                    code += f"@{self.predefined['STATIC']+index}\n"
+                    code += f"M=D\n"
+                else:
+                    code += f"@{self.predefined[segment]}\n"
+                    code += f"D=M\n"                # D=&segment[0]
+                    code += f"@{index}\n"
+                    code += f"A=D+A\n"              # A=&segment[index]
+                    code += self.__pop_reg("D")     # pop semgent[index]
             case _:
                 raise AssertionError("command is not C_PUSH or C_POP type")
         self.f.write(code)
@@ -202,7 +315,7 @@ class CodeWriter():
         code += self.__reduce_stack()
         code += f"@{self.predefined['SP']}\n"
         code += f"A=M\n"
-        code += f"{reg}=M\n"    # 오염 방지를 위한 백업 (A 또는 M 레지스터가 입력된 경우)
+        code += f"{reg}=M\n"
         return code
 
     def __expand_stack(self) -> str:
