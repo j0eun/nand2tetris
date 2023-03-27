@@ -39,6 +39,19 @@ projects/07/StackArithmetic/SimpleAdd/*.out
 projects/07/StackArithmetic/StackTest/*.asm
 projects/07/StackArithmetic/StackTest/*.out
 projects/07/VMTranslator/__pycache__
+projects/08/ProgramFlow/BasicLoop/*.asm
+projects/08/ProgramFlow/BasicLoop/*.out
+projects/08/ProgramFlow/FibonacciSeries/*.asm
+projects/08/ProgramFlow/FibonacciSeries/*.out
+projects/08/FunctionCalls/SimpleFunction/SimpleFunction.asm
+projects/08/FunctionCalls/SimpleFunction/SimpleFunction.out
+projects/08/FunctionCalls/StaticsTest/StaticsTest.asm
+projects/08/FunctionCalls/StaticsTest/StaticsTest.out
+projects/08/FunctionCalls/NestedCall/NestedCall.asm
+projects/08/FunctionCalls/NestedCall/NestedCall.out
+projects/08/FunctionCalls/FibonacciElement/FibonacciElement.asm
+projects/08/FunctionCalls/FibonacciElement/FibonacciElement.out
+projects/08/VMTranslator/__pycache__
 
 # 디버깅 설정 폴더
 .vscode

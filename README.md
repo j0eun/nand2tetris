@@ -56,7 +56,9 @@ Parser, Code, SymbolTable 세 가지 모듈을 원하는 언어로 작성합니�
 스택 기반의 산술 연산을 구현합니다.
 
 ## Project 8: VM II: Program Control
+중간언어를 어셈블리 언어로 번역하는 도구를 작성합니다.
 
+흐름 제어를 구현합니다.
 
 ## Project 9: High-Level Language
 
